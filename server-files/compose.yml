@@ -1,0 +1,24 @@
+volumes:
+  jenkins-data:
+  
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts-jdk21
+    container_name: control_node
+    volumes:
+      - jenkins-data:/var/jenkins_home
+  maven-agent:
+    image: maven-agent:3.1
+    container_name: mvn-agent
+    environment:
+      JENKINS_NAME: "${JENKINS_NAME}"
+      JENKINS_URL: "${JENKINS_URL}"
+      JENKINS_SECRET: "${JENKINS_AGENT_SECRET}"
+      JENKINS_WEB_SOCKET: "true"
+    restart: unless-stopped
+
+    
+    
+
+    

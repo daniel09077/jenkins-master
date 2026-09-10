@@ -1,0 +1,47 @@
+pipeline{
+    agent{ 
+        label 'maven-agent'
+    }
+    //tell jenkins which directory holds the java application 
+    environment{
+        mvnPRJDIR = 'java-with-maven/java'
+    }
+    stages{
+        stage('Git checkout'){
+                steps{
+                    checkout scm
+                }
+        }
+        stage('Validate'){
+            steps{
+                dir(env.mvnPRJDIR){
+                    sh 'mvn validate'
+                }
+            }
+
+        }
+        stage('Maven-Test'){
+            steps{
+                dir(env.mvnPRJDIR){
+                    sh 'mvn test'
+                }
+            }
+        }
+        stage('SAST with Sonarqube'){
+            steps{
+                dir(env.mvnPRJDIR){
+                    withSonarQubeEnv('sonarqube token'){
+
+                        '''sh mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                            -Dsonar.projectKey=jenkins-sonarqube \
+                            -Dsonar.projectName='jenkins-sonarqube' \
+                            -Dsonar.scanner.skipJreProvisioning=true
+                        '''
+                    }
+        
+                }
+            }
+        }
+        #stage('deploy')
+    }
+}
