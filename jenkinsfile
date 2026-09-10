@@ -32,7 +32,7 @@ pipeline{
                 dir(env.mvnPRJDIR){
                     withSonarQubeEnv('sonarqube token'){
 
-                        '''sh mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                        sh ''' mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
                             -Dsonar.projectKey=jenkins-sonarqube \
                             -Dsonar.projectName='jenkins-sonarqube' \
                             -Dsonar.scanner.skipJreProvisioning=true
