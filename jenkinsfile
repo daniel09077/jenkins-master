@@ -48,7 +48,7 @@ pipeline{
                variable: 'MAVEN-SETTINGS-FILE')])
                {
                     dir(env.MAVEN_PROJ_DIR){
-                        withCredentials([usernamePassword(credentialsId: 'nexus-repo', 
+                        withCredentials([usernamePassword(credentialsId: 'nexus-cred', 
                                     usernameVariable: 'NEXUS_USER', 
                                     passwordVariable: 'NEXUS_PASS')])
                                     {
