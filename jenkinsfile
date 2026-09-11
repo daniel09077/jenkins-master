@@ -33,8 +33,8 @@ pipeline{
                     withSonarQubeEnv('sonarqube token'){
 
                         sh ''' mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-                            -Dsonar.projectKey=jenkins-sonarqube \
-                            -Dsonar.projectName='jenkins-sonarqube' \
+                            -Dsonar.projectKey=maven-agent-scanner \
+                            -Dsonar.projectName='maven-agent-scanner' \
                             -Dsonar.scanner.skipJreProvisioning=true
                         '''
                     }
