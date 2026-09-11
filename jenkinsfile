@@ -44,7 +44,7 @@ pipeline{
         }
         stage('Deploy to Nexus'){
             steps{
-               configFileProvider([configFile(fileID: 'maven-settings-file',
+               configFileProvider([configFile(fileId: 'maven-settings-file',
                variable: 'MAVEN-SETTINGS-FILE')])
                {
                     dir(env.MAVEN_PROJ_DIR){
