@@ -47,7 +47,7 @@ pipeline{
                configFileProvider([configFile(fileId: 'maven-settings-file',
                variable: 'MAVEN-SETTINGS-FILE')])
                {
-                    dir(env.MAVEN_PROJ_DIR){
+                    dir(env.mvnPRJDIR){
                         withCredentials([usernamePassword(credentialsId: 'nexus-cred', 
                                     usernameVariable: 'NEXUS_USER', 
                                     passwordVariable: 'NEXUS_PASS')])
