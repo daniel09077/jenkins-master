@@ -1,0 +1,80 @@
+---
+# - name: Copy files to remote lxc
+#   become: true
+#   hosts: localhost
+#   gather_facts: false
+#   tasks:
+    # - name: Create parent directory 
+    #   ansible.builtin.file:
+    #     state: directory
+    #     path: /home/ansible/testfile
+
+    # - name: transferring files 
+    #   ansible.builtin.copy:
+    #     src: deploy.yml
+    #     # state: file
+    #     dest: /home/ansible/testfile/deploy.yml
+- name: Query VMs on Proxmox VE
+  hosts: localhost
+  gather_facts: false
+  vars:
+    api_host: 192.168.1.150
+    api_token_id: "ansible-token"
+    api_token_secret: "a9f85223-94f1-466f-9968-18ce98dd68f0"
+    api_user: "ansible-automation@pve"
+    node: "canada-proxmox"
+    api_timeout: 30
+    validate_certs: false
+
+
+
+  tasks:
+    - name: Get VM inventory
+      community.proxmox.proxmox_vm_info:
+        api_host: "{{ api_host }}"
+        api_token_id: "{{ api_token_id }}"
+        api_token_secret: "{{ api_token_secret }}"
+        api_user: "{{ api_user }}"
+        validate_certs: "{{ validate_certs }}"
+      register: proxmox_inventory
+
+    - name: Create an lxc from a template
+      community.proxmox.proxmox:
+        node: "{{ node }}"
+        api_host: "{{ api_host }}"
+        vmid: 109
+        api_token_id: "{{ api_token_id }}"
+        api_user: "ansible-automation@pve"
+        api_token_secret: "{{ api_token_secret }}"
+        clone: 104
+        hostname: "dev-sev"
+        # hostname: "dev-sev-{{ '%02d' | format(ansible_loop.index) }}"
+        validate_certs: "{{ validate_certs }}"
+        
+        # storage: local
+        state: present
+        # loop: "{{ query('ansible.builtin.sequence', 'count=2') }}"
+
+    # - name: Spin up lxc
+    #   community.general.lxc_container:
+
+        
+        
+
+
+
+
+
+
+
+# - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+#   community.crypto.openssh_keypair:
+#     path: ~/.ssh/ansible_key
+#     size: 4096
+#     type: rsa
+    
+# - name: copy public key to remote host
+#   ansible.builtin.copy:
+#     src: ~/.ssh/ansible_key.pub
+#     dest: ~/.ssh/authorized_keys
+

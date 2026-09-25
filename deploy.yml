@@ -1,0 +1,22 @@
+---
+- name: Deploying application to target nodes
+  hosts: "{env} target nodes"
+  become: true
+
+  tasks:
+    - name: Ensure Docker is installed on target nodes
+      ansible.builtin.package:
+        name: docker
+        state: present
+    - name: Start Docker service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+    
+    
+
+
+
+
+  

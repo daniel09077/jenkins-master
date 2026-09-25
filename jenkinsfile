@@ -1,17 +1,23 @@
 pipeline{
-    agent{ 
-        label 'maven-agent'
-    }
+   agent none
     //tell jenkins which directory holds the java application 
     environment{
         mvnPRJDIR = 'java-with-maven/java'
+        dockHubUname = 'kingtempest'
+        dockerimagedir = 'java-with-maven/Docker/newapp'
+        localdockerimagename = 'app'
+        // localdockerreponame = 
     }
     stages{
         stage('Git checkout'){
                 steps{
                     checkout scm
                 }
+        } 
+        stage('Build with Maven'){
+            agent { label 'maven-agent' }
         }
+
         stage('Validates'){
             steps{
                 dir(env.mvnPRJDIR){
@@ -60,6 +66,34 @@ pipeline{
                
             }
         }
+        stage('Build Docker Image'){
+            steps{
+                dir(env.dockerimagedir){
+                    sh 'docker build -t $dockHubUname/$localdockerimagename:your_tag .'  // Replace with your Docker Hub username, image name, and tag
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+//         stage('Deploying App Image to Docker Hub'){
+//             steps{
+//                     withCredentials([string(credentialsId: 'docker-hub-access-token', variable: 'DOCKERHUB_SECRET_TOKEN')]) {          // Log into Docker Hub using the secret token stored in Jenkins credentials
+//                      sh 'echo "$DOCKERHUB_SECRET_TOKEN" | docker login -u $dockHubUname --password-stdin'
+//                      sh 'docker push $dockHubUname/test-application:your_tag'  // Replace with your Docker Hub username, image name, and tag
+//                         }
+//                     }
+       
+            
+// }
+      
        
     }
 }
