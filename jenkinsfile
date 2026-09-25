@@ -1,5 +1,5 @@
 pipeline{
-   agent none
+   agent { label 'maven-agent' }
     //tell jenkins which directory holds the java application 
     environment{
         mvnPRJDIR = 'java-with-maven/java'
@@ -14,9 +14,9 @@ pipeline{
                     checkout scm
                 }
         } 
-        stage('Build with Maven'){
-            agent { label 'maven-agent' }
-        
+        // stage('Build with Maven'){
+        //     agent { label 'maven-agent' }
+        // }
 
         stage('Validates'){
             steps{
