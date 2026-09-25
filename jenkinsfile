@@ -1,5 +1,8 @@
 pipeline{
    agent { label 'maven-agent' }
+   tools {
+    dockerTool 'Docker' // Match the build tool name in Jenkins configuration
+    }
     //tell jenkins which directory holds the java application 
     environment{
         mvnPRJDIR = 'java-with-maven/java'
