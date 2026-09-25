@@ -16,7 +16,7 @@ pipeline{
         } 
         stage('Build with Maven'){
             agent { label 'maven-agent' }
-        }
+        
 
         stage('Validates'){
             steps{
