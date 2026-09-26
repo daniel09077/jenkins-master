@@ -10,6 +10,7 @@ pipeline{
         dockHubUname = 'kingtempest'
         dockerimagedir = 'java-with-maven/Docker/newapp'
         localdockerimagename = 'app'
+        dockerimagetag = '1.0'
         // localdockerreponame = 
         DOCKER_API_VERSION = '1.40'
     
@@ -88,12 +89,25 @@ pipeline{
                      "http://192.168.1.196:8084/service/local/artifact/maven/redirect?r=snapshots&g=${GROUP_ID}&a=${ARTIFACT_ID}&v=${VERSION}&e=jar" \
                      -o app.jar
 
-                     docker build -t $localdockerimagename:your_tag .  #Replace with your Docker Hub username, image name, and tag
+                     docker build -t $localdockerimagename:${dockerimagetag} .  #Replace with your Docker Hub username, image name, and tag
                '''
                 }
             }
             }
         }
+
+               stage('Deploying App Image to Docker Hub'){
+            steps{
+                    withCredentials([string(credentialsId: 'docker-hub-access-token', variable: 'DOCKERHUB_SECRET_TOKEN')]) {          // Log into Docker Hub using the secret token stored in Jenkins credentials
+                     sh 'echo "$DOCKERHUB_SECRET_TOKEN" | docker login -u $dockHubUname --password-stdin'
+                     sh 'docker push $dockHubUname/$localdockerimage:${dockerimagetag}'  // Replace with your Docker Hub username, image name, and tag
+                        }
+                    }
+       
+            
+}
+      
+        
     }
 }
 
@@ -115,15 +129,15 @@ pipeline{
 
 
 
-//         stage('Deploying App Image to Docker Hub'){
-//             steps{
-//                     withCredentials([string(credentialsId: 'docker-hub-access-token', variable: 'DOCKERHUB_SECRET_TOKEN')]) {          // Log into Docker Hub using the secret token stored in Jenkins credentials
-//                      sh 'echo "$DOCKERHUB_SECRET_TOKEN" | docker login -u $dockHubUname --password-stdin'
-//                      sh 'docker push $dockHubUname/test-application:your_tag'  // Replace with your Docker Hub username, image name, and tag
-//                         }
-//                     }
+        stage('Deploying App Image to Docker Hub'){
+            steps{
+                    withCredentials([string(credentialsId: 'docker-hub-access-token', variable: 'DOCKERHUB_SECRET_TOKEN')]) {          // Log into Docker Hub using the secret token stored in Jenkins credentials
+                     sh 'echo "$DOCKERHUB_SECRET_TOKEN" | docker login -u $dockHubUname --password-stdin'
+                     sh 'docker push $dockHubUname/test-application:your_tag'  // Replace with your Docker Hub username, image name, and tag
+                        }
+                    }
        
             
-// }
+}
       
   
