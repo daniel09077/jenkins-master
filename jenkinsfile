@@ -88,11 +88,14 @@ pipeline{
                      "http://192.168.1.196:8084/service/local/artifact/maven/redirect?r=snapshots&g=${GROUP_ID}&a=${ARTIFACT_ID}&v=${VERSION}&e=jar" \
                      -o app.jar
 
-                     docker build -t $localdockerimagename:your_tag .  // Replace with your Docker Hub username, image name, and tag
+                     docker build -t $localdockerimagename:your_tag .  #Replace with your Docker Hub username, image name, and tag
                '''
                 }
             }
-            
+            }
+        }
+    }
+}
 
 
 
@@ -100,10 +103,8 @@ pipeline{
 
 
                
-                    sh 'docker build -t $localdockerimagename:your_tag .'  // Replace with your Docker Hub username, image name, and tag
-                }
-            }
-        }
+                    // sh 'docker build -t $localdockerimagename:your_tag .'  // Replace with your Docker Hub username, image name, and tag
+            
 
 
 
@@ -125,6 +126,4 @@ pipeline{
             
 // }
       
-       
-    }
-}
+  
