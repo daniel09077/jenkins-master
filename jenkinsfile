@@ -12,6 +12,7 @@ pipeline{
         localdockerimagename = 'app'
         // localdockerreponame = 
         DOCKER_API_VERSION = '1.40'
+    
     }
     stages{
         stage('Git checkout'){
