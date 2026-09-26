@@ -100,6 +100,7 @@ pipeline{
             steps{
                     withCredentials([string(credentialsId: 'jenkins-access-token', variable: 'DOCKERHUB_SECRET_TOKEN')]) {          // Log into Docker Hub using the secret token stored in Jenkins credentials
                      
+                    sh 'docker --version'
                      sh "echo '$DOCKERHUB_SECRET_TOKEN' | docker login -u '$dockHubUname' --password-stdin"
                     
                      sh 'docker push $dockHubUname/$localdockerimage:${dockerimagetag}'  // Replace with your Docker Hub username, image name, and tag
