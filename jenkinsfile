@@ -11,6 +11,7 @@ pipeline{
         dockerimagedir = 'java-with-maven/Docker/newapp'
         localdockerimagename = 'app'
         // localdockerreponame = 
+        DOCKER_API_VERSION = '1.40'
     }
     stages{
         stage('Git checkout'){
