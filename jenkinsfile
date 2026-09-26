@@ -1,6 +1,6 @@
 pipeline{
    agent { label 'maven-agent' }
-    args '-v /var/run/docker.sock:/var/run/docker.sock -u root'
+    
    tools {
     dockerTool 'Docker' // Match the build tool name in Jenkins configuration
     }
