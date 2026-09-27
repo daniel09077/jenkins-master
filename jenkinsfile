@@ -102,7 +102,7 @@ pipeline{
                      
                     sh 'docker --version'
                      sh "docker login -u ${dockHubUname} -p ${DOCKERHUB_SECRET_TOKEN}"
-                     sh 'docker images rmi app:your_tag' //Verify the image is built and available locally
+                     sh 'docker rmi app:your_tag' //Verify the image is built and available locally
                      sh 'docker tag $localdockerimagename:$dockerimagetag $dockHubUname/$localdockerimagename:$dockerimagetag'  // Tag the image for Docker Hub
                      sh 'docker push $dockHubUname/$localdockerimagename:$dockerimagetag'  // Replace with your Docker Hub username, image name, and tag
                         }
