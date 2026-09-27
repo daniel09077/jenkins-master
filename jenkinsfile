@@ -91,7 +91,7 @@ pipeline{
 
                      
                '''
-               sh 'docker build -t $dockerhubusername/$localdockerimagename:$dockerimagetag . ' #Replace with your Docker Hub username, image name, and tag
+               sh 'docker build -t $dockerhubusername/$localdockerimagename:$dockerimagetag . ' //Replace with your Docker Hub username, image name, and tag
                 }
             }
             }
