@@ -25,21 +25,16 @@ pipeline{
         //     agent { label 'maven-agent' }
         // }
 
-        stage('Validates'){
+        stage('Validate and Test with Maven'){
             steps{
                 dir(env.mvnPRJDIR){
                     sh 'mvn validate'
+                     sh 'mvn test'
                 }
             }
 
         }
-        stage('Maven-Test'){
-            steps{
-                dir(env.mvnPRJDIR){
-                    sh 'mvn test'
-                }
-            }
-        }
+        
         stage('SAST with Sonarqube'){
             steps{
                 dir(env.mvnPRJDIR){
@@ -96,7 +91,7 @@ pipeline{
             }
         }
 
-               stage('Deploying App Image to Docker Hub'){
+        stage('Deploying App Image to Docker Hub'){
             steps{
                     withCredentials([string(credentialsId: 'jenkins-access-token', variable: 'DOCKERHUB_SECRET_TOKEN')]) {          // Log into Docker Hub using the secret token stored in Jenkins credentials
                      
@@ -106,17 +101,21 @@ pipeline{
                      sh 'docker tag $localdockerimagename:$dockerimagetag $dockHubUname/$localdockerimagename:$dockerimagetag'  // Tag the image for Docker Hub
                      sh 'docker push $dockHubUname/$localdockerimagename:$dockerimagetag'  // Replace with your Docker Hub username, image name, and tag
                         }
-                    }
-       
-            
-}
-      
-}
+                    }           
+        }   
 
-
-       
-       
-            
+        stage('Clean up Docker Images'){
+            steps{
+                sh 'docker rmi $localdockerimagename:$dockerimagetag || true'  // Remove the local image, ignore errors if it doesn't exist
+                sh 'docker rmi $dockHubUname/$localdockerimagename:$dockerimagetag || true'  // Remove the Docker Hub tagged image, ignore errors if it doesn't exist
+            }
+        }  
+        stage('Deploy to Dev server'){
+            steps{
+                
+            }
+        }
+}
 }
       
   
