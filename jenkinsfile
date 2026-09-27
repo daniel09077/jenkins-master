@@ -103,7 +103,7 @@ pipeline{
                     sh 'docker --version'
                      sh "docker login -u ${dockHubUname} -p ${DOCKERHUB_SECRET_TOKEN}"
                     
-                     sh 'docker push $dockHubUname/$localdockerimage:${dockerimagetag}'  // Replace with your Docker Hub username, image name, and tag
+                     sh "docker push ${dockHubUname}/${localdockerimage}:${dockerimagetag}"  // Replace with your Docker Hub username, image name, and tag
                         }
                     }
        
