@@ -102,7 +102,7 @@ pipeline{
                      
                     sh 'docker --version'
                      sh "docker login -u ${dockHubUname} -p ${DOCKERHUB_SECRET_TOKEN}"
-                    
+                     sh 'docker images' //Verify the image is built and available locally
                      sh 'docker push $dockHubUname/$localdockerimagename:$dockerimagetag'  // Replace with your Docker Hub username, image name, and tag
                         }
                     }
