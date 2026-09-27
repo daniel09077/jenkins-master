@@ -89,9 +89,8 @@ pipeline{
                      "http://192.168.1.196:8084/service/local/artifact/maven/redirect?r=snapshots&g=${GROUP_ID}&a=${ARTIFACT_ID}&v=${VERSION}&e=jar" \
                      -o app.jar
 
-                     
+                     docker build -t $localdockerimagename:${dockerimagetag} .  #Replace with your Docker Hub username, image name, and tag
                '''
-               sh "docker build -t $dockerhubusername/$localdockerimagename:$dockerimagetag . " //Replace with your Docker Hub username, image name, and tag
                 }
             }
             }
@@ -104,6 +103,7 @@ pipeline{
                     sh 'docker --version'
                      sh "docker login -u ${dockHubUname} -p ${DOCKERHUB_SECRET_TOKEN}"
                      sh 'docker images rmi app:your_tag' //Verify the image is built and available locally
+                     sh 'docker tag $localdockerimagename:$dockerimagetag $dockHubUname/$localdockerimagename:$dockerimagetag'  // Tag the image for Docker Hub
                      sh 'docker push $dockHubUname/$localdockerimagename:$dockerimagetag'  // Replace with your Docker Hub username, image name, and tag
                         }
                     }
