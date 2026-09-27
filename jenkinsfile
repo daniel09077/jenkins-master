@@ -110,10 +110,10 @@ pipeline{
                 sh 'docker rmi $dockHubUname/$localdockerimagename:$dockerimagetag || true'  // Remove the Docker Hub tagged image, ignore errors if it doesn't exist
             }
         }  
-        stage('Deploy to Dev server'){
-            steps{
-                
-            }
+        // stage('Deploy to Dev server'){
+        //     steps{
+
+        //     }
         }
 }
 }
